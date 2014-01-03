@@ -2,10 +2,15 @@
 
 module Idle.Ore where
 
+import Control.Applicative
+import Data.Char
 import Data.List.NonEmpty
 import qualified Data.Text as T
 import Graphics.Vty.Attributes
+import Idle.Ore.Parse
+import Paths_idle
 import Prelude hiding (readFile)
+import Text.Trifecta
 
 rockOf_ :: Color -> Color -> [(T.Text, Attr)]
 rockOf_ b f = [ def "\n       ", blk "__", def "    \n"
@@ -199,14 +204,29 @@ poo, paper, salt, clay, rock, coal, bone, lead, iron
   , absurdium, cosmolite, shadowEssence
   :: Ore
 
-ores :: NonEmpty Ore
-ores = poo :| [ paper, salt, clay, rock, coal, bone, lead, iron
-              , copper, carbonite, quartz, spookyBone, silver
-              , crystal, topaz, amethyst, aquamarine, emerald
-              , ruby, sapphire, hauntedBone, gold, platinum
-              , diamond, mithril, obsidian, earthEssence, orbium
-              , novalite, magicCrystal, darkstone, adamantium
-              , fireEssence, lunalite, mysterium, cursedBone
-              , windEssence, unobtanium, sollite, waterEssence
-              , absurdium, cosmolite, shadowEssence
-              ]
+ores :: IO (NonEmpty Ore)
+ores = fmap fromList . sequence
+     $ [poo, paper, salt]
+    where
+        sanitize = Prelude.map (\c -> if isAlphaNum c then toLower c else '-')
+        ore s a b c = do
+            m <- getDataFileName $ sanitize s ++ ".ore"
+            cont <- parseFromFileEx oreParser m
+            case cont of
+                Success q -> return $ Ore (T.pack s) a b c q
+                e -> error $ show e
+        poo = ore "Poo" 100 0 2
+        paper = ore "Paper" 400 3 10
+        salt = ore "Salt" 700 15 22
+
+-- ores :: NonEmpty Ore
+-- ores = poo :| [ paper, salt, clay, rock, coal, bone, lead, iron
+--               , copper, carbonite, quartz, spookyBone, silver
+--               , crystal, topaz, amethyst, aquamarine, emerald
+--               , ruby, sapphire, hauntedBone, gold, platinum
+--               , diamond, mithril, obsidian, earthEssence, orbium
+--               , novalite, magicCrystal, darkstone, adamantium
+--               , fireEssence, lunalite, mysterium, cursedBone
+--               , windEssence, unobtanium, sollite, waterEssence
+--               , absurdium, cosmolite, shadowEssence
+--               ]

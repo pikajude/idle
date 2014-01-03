@@ -10,10 +10,12 @@ maintainer:          me@joelt.io
 category:            Game
 build-type:          Simple
 cabal-version:       >=1.10
+data-dir:            data
+data-files:          poo.ore, paper.ore
 
 executable idle
   main-is:             Main.hs
-  other-modules:       Idle.Screens.Home
+  other-modules:       Idle.Screens.Home, Idle.Ore.Parse
   build-depends:       base >=4.6 && <4.7
                      , ansi-wl-pprint
                      , containers

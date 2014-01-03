@@ -32,7 +32,7 @@ previous (Zipper (l:ls) f rs) = Just $ Zipper ls l (f:rs)
 previous _ = Nothing
 
 num :: IORef (Zipper Ore)
-num = unsafePerformIO . newIORef $ enter ores
+num = unsafePerformIO $ ores >>= newIORef . enter
 
 drawDisplay :: Widget FormattedText -> Widget FormattedText -> Widget FormattedText -> IO ()
 drawDisplay disp l r = do
