@@ -13,13 +13,7 @@ import Prelude hiding (readFile)
 import Text.Trifecta
 
 rockOf_ :: Color -> Color -> [(T.Text, Attr)]
-rockOf_ b f = [ def "\n       ", blk "__", def "    \n"
-              , def "     ", blk "_/" , c "@@", blk "`-", def "  \n"
-              , def "    ", blk "/", c "@", blk "\\", c "@", blk "(", c "@@", blk "\\", def " \n"
-              , def "    ", blk "\\", c "@@", blk "`", c "@", blk ")", c "@@", blk "\\", def "\n"
-              , def "     ", blk "/", c "@@", blk "(", c "@@", blk "|", def " \n"
-              , def "     ", blk "\\", c "@@@@@", blk "/", def " "
-              ]
+rockOf_ b f = undefined
     where blk m = (m, Attr KeepCurrent (SetTo b) KeepCurrent)
           c m = (m, Attr KeepCurrent (SetTo f) KeepCurrent)
           def m = (m, def_attr)
@@ -206,7 +200,7 @@ poo, paper, salt, clay, rock, coal, bone, lead, iron
 
 ores :: IO (NonEmpty Ore)
 ores = fmap fromList . sequence
-     $ [poo, paper, salt]
+     $ [poo, paper, salt, clay, rock]
     where
         sanitize = Prelude.map (\c -> if isAlphaNum c then toLower c else '-')
         ore s a b c = do
@@ -218,6 +212,8 @@ ores = fmap fromList . sequence
         poo = ore "Poo" 100 0 2
         paper = ore "Paper" 400 3 10
         salt = ore "Salt" 700 15 22
+        clay = ore "Clay" 1400 35 50
+        rock = ore "Rock" 2200 90 120
 
 -- ores :: NonEmpty Ore
 -- ores = poo :| [ paper, salt, clay, rock, coal, bone, lead, iron
