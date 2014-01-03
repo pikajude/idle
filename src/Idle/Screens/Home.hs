@@ -12,6 +12,7 @@ import Graphics.Vty hiding (string)
 import Graphics.Vty.Widgets.All
 import System.Exit
 import System.IO.Unsafe
+import Text.Printf
 
 data Zipper a = Zipper
               { left :: [a]
@@ -36,17 +37,19 @@ num = unsafePerformIO . newIORef $ enter ores
 drawDisplay :: Widget FormattedText -> Widget FormattedText -> Widget FormattedText -> IO ()
 drawDisplay disp l r = do
     (Zipper ls f rs) <- readIORef num
-    setText l $ if null ls then "  " else "← "
-    setText r $ if null rs then "  " else " →"
+    setText l $ if null ls then "  " else "◀ "
+    setText r $ if null rs then "  " else " ▶"
     setTextWithAttrs disp $ display f
     where
+        showB m | m >= 10000000000 = T.pack $ printf "%.2fB" (fromIntegral (m `div` 10000000) / 100 :: Double)
+        showB m = T.pack $ show m
         plain t = (T.cons '\n' $ T.center 16 ' ' t, def_attr)
         line = ("\n", def_attr)
         display (Ore n h d v i) = i
             ++ [ line, plain n
-               , plain $ "HP: " <> T.pack (show h)
-               , plain $ "D: " <> T.pack (show d)
-               , plain $ "$" <> T.pack (show v)]
+               , plain $ "HP: " <> showB h
+               , plain $ "D: " <> showB d
+               , plain $ "$" <> showB v]
 
 home :: IO (Widget (Box Table FormattedText), Widget FocusGroup)
 home = do
