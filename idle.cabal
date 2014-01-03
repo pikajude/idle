@@ -1,0 +1,26 @@
+name:                idle
+version:             0.1.0.0
+synopsis:            Idle: a game
+description:         Mine some crap.
+homepage:            https://github.com/joelteon/idle.git
+license:             MIT
+license-file:        LICENSE
+author:              Joel Taylor
+maintainer:          me@joelt.io
+category:            Game
+build-type:          Simple
+cabal-version:       >=1.10
+
+executable idle
+  main-is:             Main.hs
+  other-modules:       Idle.Screens.Home
+  build-depends:       base >=4.6 && <4.7
+                     , ansi-wl-pprint
+                     , containers
+                     , semigroups
+                     , text >= 1.0
+                     , trifecta
+                     , vty
+                     , vty-ui
+  hs-source-dirs:      src
+  default-language:    Haskell2010
