@@ -200,7 +200,7 @@ poo, paper, salt, clay, rock, coal, bone, lead, iron
 
 ores :: IO (NonEmpty Ore)
 ores = fmap fromList . sequence
-     $ [poo, paper, salt, clay, rock]
+     $ [poo, paper, salt, clay, rock, coal, bone, lead]
     where
         sanitize = Prelude.map (\c -> if isAlphaNum c then toLower c else '-')
         ore s a b c = do
@@ -209,11 +209,14 @@ ores = fmap fromList . sequence
             case cont of
                 Success q -> return $ Ore (T.pack s) a b c q
                 e -> error $ show e
-        poo = ore "Poo" 100 0 2
-        paper = ore "Paper" 400 3 10
-        salt = ore "Salt" 700 15 22
-        clay = ore "Clay" 1400 35 50
-        rock = ore "Rock" 2200 90 120
+        poo   = ore "Poo"      100   0    2
+        paper = ore "Paper"    400   3   10
+        salt  = ore "Salt"     700  15   22
+        clay  = ore "Clay"    1400  35   50
+        rock  = ore "Rock"    2200  90  120
+        coal  = ore "Coal"    4000 200  275
+        bone  = ore "Bone"    7000 380  580
+        lead  = ore "Lead"   12400 700 1100
 
 -- ores :: NonEmpty Ore
 -- ores = poo :| [ paper, salt, clay, rock, coal, bone, lead, iron
