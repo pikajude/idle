@@ -200,32 +200,64 @@ poo, paper, salt, clay, rock, coal, bone, lead, iron
 
 ores :: IO (NonEmpty Ore)
 ores = fmap fromList . sequence
-     $ [poo, paper, salt, clay, rock, coal, bone, lead]
+     $ [ ore "Poo"               100     0      2
+       , ore "Paper"             400     3     10
+       , ore "Salt"              700    15     22
+       , ore "Clay"             1400    35     50
+       , ore "Rock"             2200    90    120
+       , ore "Coal"              4e3   200    275
+       , ore "Bone"              7e3   380    580
+       , ore "Lead"            12400   700   1100
+       , ore "Iron"             16e3  1140   1850
+       , ore "Copper"           25e3  1600   3200
+       , ore "Carbonite"         4e4  2500   5200
+       , ore "Quartz"           64e3  3800   8600
+       , ore "Spooky Bone"      92e3  5400   14e3
+       , ore "Silver"          128e3  7200   28e3
+       , ore "Crystal"           2e5  9999   42e3
+       , ore "Topaz"             5e5 13500   14e4
+       , ore "Amethyst"         14e5 18000   48e4
+       , ore "Aquamarine"       48e5 24500   22e5
+       , ore "Emerald"          13e6  34e3   72e5
+       , ore "Ruby"             42e6   5e4  255e5
+       , ore "Sapphire"         12e7   8e4   85e6
+       , ore "Haunted Bone"      2e8  13e4   19e7
+       , ore "Gold"             36e7   2e5    4e8
+       , ore "Platinum"          5e8 295e3   76e7
+       , ore "Diamond"           7e8  44e4   16e8
+       , ore "Mithril"           1e9  68e4   28e8
+       , ore "Obsidian"         14e8 105e4   48e8
+       , ore "Earth Essence"     2e9  14e5   82e8
+       , ore "Orbium"           26e8   2e6  135e8
+       , ore "Novalite"         35e8  28e5  245e8
+       , ore "Magic Crystal"    49e8   4e6   42e9
+       , ore "Darkstone"        72e8  58e5   7e10
+       , ore "Adamantium"       1e10  85e5  125e9
+       , ore "Fire Essence"     14e9  12e6   2e11
+       , ore "Lunalite"         2e10  17e6  34e10
+       , ore "Mysterium"        3e10  24e6  58e10
+       , ore "Cursed Bone"      45e9 335e5 105e10
+       , ore "Wind Essence"     68e9  48e6  17e11
+       , ore "Unobtanium"       1e11  69e6   3e12
+       , ore "Sollite"         13e10  95e6  48e11
+       , ore "Water Essence"   175e9 138e6  72e11
+       , ore "Absurdium"       24e10 205e6  12e12
+       , ore "Cosmolite"       32e10   3e8   2e13
+       , ore "Shadow Essence"  435e9  44e7   3e13
+       , ore "Demonite"        59e10  64e7  49e12
+       , ore "Eternium"        78e10  95e7  72e12
+       , ore "Mysticite"      105e10  14e8  11e13
+       , ore "Light Essence"  135e10   2e9  17e13
+       , ore "Soulstone"       18e11  31e8  27e13
+       , ore "Arcanium"        24e11  48e8  42e13
+       ]
     where
         sanitize = Prelude.map (\c -> if isAlphaNum c then toLower c else '-')
+        ore :: String -> Double -> Double -> Double -> IO Ore
         ore s a b c = do
             m <- getDataFileName $ sanitize s ++ ".ore"
             cont <- parseFromFileEx oreParser m
             case cont of
-                Success q -> return $ Ore (T.pack s) a b c q
+                Success q -> return $ Ore
+                    (T.pack s) (round a) (round b) (round c) q
                 e -> error $ show e
-        poo   = ore "Poo"      100   0    2
-        paper = ore "Paper"    400   3   10
-        salt  = ore "Salt"     700  15   22
-        clay  = ore "Clay"    1400  35   50
-        rock  = ore "Rock"    2200  90  120
-        coal  = ore "Coal"    4000 200  275
-        bone  = ore "Bone"    7000 380  580
-        lead  = ore "Lead"   12400 700 1100
-
--- ores :: NonEmpty Ore
--- ores = poo :| [ paper, salt, clay, rock, coal, bone, lead, iron
---               , copper, carbonite, quartz, spookyBone, silver
---               , crystal, topaz, amethyst, aquamarine, emerald
---               , ruby, sapphire, hauntedBone, gold, platinum
---               , diamond, mithril, obsidian, earthEssence, orbium
---               , novalite, magicCrystal, darkstone, adamantium
---               , fireEssence, lunalite, mysterium, cursedBone
---               , windEssence, unobtanium, sollite, waterEssence
---               , absurdium, cosmolite, shadowEssence
---               ]
