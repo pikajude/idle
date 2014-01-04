@@ -11,8 +11,8 @@ category:            Game
 build-type:          Simple
 cabal-version:       >=1.10
 data-dir:            data
-data-files:          poo.ore, paper.ore
-
+data-files:          absurdium.ore, adamantium.ore, amethyst.ore, aquamarine.ore, arcanium.ore, bone.ore, carbonite.ore, clay.ore, coal.ore, copper.ore, cosmolite.ore, crystal.ore, cursed-bone.ore, darkstone.ore, demonite.ore, diamond.ore, earth-essence.ore, emerald.ore, eternium.ore, fire-essence.ore, gold.ore, haunted-bone.ore, iron.ore, lead.ore, light-essence.ore, lunalite.ore, magic-crystal.ore, mithril.ore, mysterium.ore, mysticite.ore, novalite.ore, obsidian.ore, orbium.ore, paper.ore, platinum.ore, poo.ore, quartz.ore, rock.ore, ruby.ore, salt.ore, sapphire.ore, shadow-essence.ore, silver.ore, sollite.ore, soulstone.ore, spooky-bone.ore, topaz.ore, unobtanium.ore, water-essence.ore, wind-essence.ore
+ 
 executable idle
   main-is:             Main.hs
   other-modules:       Idle.Screens.Home, Idle.Ore.Parse
@@ -26,3 +26,7 @@ executable idle
                      , vty-ui
   hs-source-dirs:      src
   default-language:    Haskell2010
+
+source-repository head
+  type: git
+  location: https://github.com/joelteon/idle.git
